@@ -2,12 +2,11 @@ const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 
 class CustomerService {
-
   constructor() {}
 
   async find() {
     const rta = await models.Customer.findAll({
-      include: ['user']
+      include: ['user'],
     });
     return rta;
   }
@@ -22,8 +21,11 @@ class CustomerService {
 
   async create(data) {
     const newCustomer = await models.Customer.create(data, {
-      include: ['user']
+      include: ['user'],
     });
+
+    delete newCustomer.dataValues.user.dataValues.password;
+
     return newCustomer;
   }
 
@@ -38,7 +40,6 @@ class CustomerService {
     await model.destroy();
     return { rta: true };
   }
-
 }
 
 module.exports = CustomerService;

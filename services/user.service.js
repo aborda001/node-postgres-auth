@@ -7,12 +7,15 @@ class UserService {
 
   async create(data) {
     const newUser = await models.User.create(data);
+
+    delete newUser.dataValues.password;
+
     return newUser;
   }
 
   async find() {
     const rta = await models.User.findAll({
-      include: ['customer']
+      include: ['customer'],
     });
     return rta;
   }
